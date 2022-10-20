@@ -128,11 +128,6 @@ VALUES ('Jodie Whittaker',
         38);
 
 
-INSERT INTO owners (full_name, age)
-VALUES ('Jodie Whittaker',
-        38);
-
-
 INSERT INTO species (name)
 VALUES ('Pokemon');
 
@@ -142,13 +137,19 @@ VALUES ('Digimon');
 
 
 UPDATE animals
-SET species_id = 2
-WHERE name LIKE '%mon';
+SET species_id =
+        (SELECT id
+         from species
+         WHERE name = 'Digimon')
+WHERE name like '%mon';
 
 
 UPDATE animals
-SET species_id = 1
-WHERE name NOT LIKE '%mon';
+SET species_id =
+        (SELECT id
+         from species
+         WHERE name = 'Pokemon')
+WHERE species_id IS NULL;
 
 
 UPDATE animals
@@ -173,3 +174,9 @@ SET owners_id = 4
 WHERE name = 'Squirtle'
         OR name = 'Charmander'
         OR name = 'Blossom';
+
+
+UPDATE animals
+SET owners_id = 5
+WHERE name = 'Angemon'
+        OR name = 'Boarmon';

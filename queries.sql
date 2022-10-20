@@ -163,11 +163,11 @@ FROM owners
 LEFT JOIN animals ON owners.id = animals.owners_id;
 
 
-SELECT COUNT(*)
+SELECT species.name,
+       COUNT(*)
 FROM animals
-GROUP BY (species_id);
-
-
+LEFT JOIN species ON animals.species_id = species.id
+GROUP BY species.name
 SELECT name
 FROM animals
 JOIN owners ON owners.id = animals.owners_id
