@@ -180,3 +180,10 @@ FROM animals
 JOIN owners on owners.id = animals.owners_id
 WHERE animals.escape_attempts = 0
   AND owners.full_name LIKE '%Dean%';
+
+
+SELECT owners.full_name,
+       COUNT(animals.owners_id)
+FROM owners
+JOIN animals ON owners.id = animals.owners_id
+GROUP BY owners.full_name;
