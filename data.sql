@@ -138,17 +138,17 @@ VALUES ('Digimon');
 
 UPDATE animals
 SET species_id =
-        (SELECT id
-         from species
-         WHERE name = 'Digimon')
+  (SELECT id
+   from species
+   WHERE name = 'Digimon')
 WHERE name like '%mon';
 
 
 UPDATE animals
 SET species_id =
-        (SELECT id
-         from species
-         WHERE name = 'Pokemon')
+  (SELECT id
+   from species
+   WHERE name = 'Pokemon')
 WHERE species_id IS NULL;
 
 
@@ -160,26 +160,26 @@ WHERE name = 'Agumon';
 UPDATE animals
 SET owners_id = 2
 WHERE name = 'Gabumon'
-        OR name = 'Pikachu';
+  OR name = 'Pikachu';
 
 
 UPDATE animals
 SET owners_id = 3
 WHERE name = 'Plantmon'
-        OR name = 'Devimon';
+  OR name = 'Devimon';
 
 
 UPDATE animals
 SET owners_id = 4
 WHERE name = 'Squirtle'
-        OR name = 'Charmander'
-        OR name = 'Blossom';
+  OR name = 'Charmander'
+  OR name = 'Blossom';
 
 
 UPDATE animals
 SET owners_id = 5
 WHERE name = 'Angemon'
-        OR name = 'Boarmon';
+  OR name = 'Boarmon';
 
 -- Data for vets
 
@@ -247,3 +247,21 @@ VALUES (1,
                                                                                                                                                                                                                                                                                                         '2020-05-24'), (10,
                                                                                                                                                                                                                                                                                                                         1,
                                                                                                                                                                                                                                                                                                                         '2021-01-11');
+
+-- This will add 3.594.280 visits considering you have 10 animals, 4 vets, and it will use around ~87.000 timestamps (~4min approx.)
+
+INSERT INTO visits (animal_id, vet_id, date_of_visit)
+SELECT *
+FROM
+  (SELECT id
+   FROM animals) animal_ids,
+
+  (SELECT id
+   FROM vets) vets_ids,
+     generate_series('1980-01-01'::timestamp, '2021-01-01', '4 hours') visit_timestamp;
+
+-- This will add 2.500.000 owners with full_name = 'Owner <X>' and email = 'owner_<X>@email.com' (~2min approx.)
+
+INSERT INTO owners (full_name, email)
+SELECT'Owner ' || generate_series(1,2500000),
+      'owner_' || generate_series(1,2500000) || '@mail.com';
