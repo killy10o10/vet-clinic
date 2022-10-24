@@ -58,3 +58,6 @@ CREATE INDEX v_id ON visits(animals_id asc);
 -- Second Query Optimization
 CREATE INDEX vt_id ON visits(vets_id asc);
 
+-- Third Query Optimization
+CREATE INDEX email_id ON owners(email_id);
+
