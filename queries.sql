@@ -286,3 +286,9 @@ EXPLAIN ANALYZE
 SELECT COUNT(*)
 FROM visits
 where animal_id = 4;
+
+-- Third query Optimization
+EXPLAIN ANALYZE SELECT vets_id FROM visits WHERE vets_id=2;
+
+-- Third query Optimization
+EXPLAIN ANALYZE SELECT * FROM owners WHERE id=18333;

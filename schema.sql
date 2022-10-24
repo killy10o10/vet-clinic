@@ -50,6 +50,11 @@ CREATE TABLE visits (animal_id INT REFERENCES animals(id),
                                                                                                      date_of_visit));
 
 -- Add an email column to your owners table
-
 ALTER TABLE owners ADD COLUMN email VARCHAR(120);
+
+-- First Query Optimization
+CREATE INDEX v_id ON visits(animals_id asc);
+
+-- Second Query Optimization
+CREATE INDEX vt_id ON visits(vets_id asc);
 
