@@ -2,6 +2,9 @@
 
 > This is a database of a vet clinic containing data of animals, their owners and the Clinic's employees.
 
+> Schema Diagram
+![schema Image](./Killy-Davon.png)
+
 ## Getting Started
 
 This repository includes files with plain SQL that can be used to recreate a database:
