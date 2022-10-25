@@ -10,13 +10,19 @@ This repository includes files with plain SQL that can be used to recreate a dat
 - Use [data.sql](./data.sql) to populate tables with sample data.
 - Check [queries.sql](./queries.sql) for examples of queries that can be run on a newly created database. **Important note: this file might include queries that make changes in the database (e.g., remove records). Use them responsibly!**
 
-## Author
+## Authors
 
 👤 **Okine Kingsley**
 
 - GitHub: [@killy10o10](https://github.com/killy10o10)
 - Twitter: [@Quami_Killy](https://twitter.com/Quami_Killy)
 - Instagram: [quami_killy](https://www.instagram.com/quami_killy/)
+
+👤 **Makoji David**
+
+- GitHub: [@acedavon](https://github.com/acedavon)
+- Twitter: [@sharkleshevon](https://twitter.com/sharkleshevon)
+- LinkedIn: [Makoji David](https://www.instagram.com/makoji-david/)
 
 ## 🤝 Contributing
 
