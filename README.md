@@ -2,8 +2,8 @@
 
 > This is a database of a vet clinic containing data of animals, their owners and the Clinic's employees.
 
-> Schema Diagram
-![schema Image](./Killy-Davon.png)
+> Schema diagram for vet Clinic
+> ![schema Image](./Killy-Davon.png)
 
 ## Getting Started
 

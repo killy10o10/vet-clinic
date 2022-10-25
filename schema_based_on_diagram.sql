@@ -1,71 +1,61 @@
-CREATE TABLE "animals"(
-    "id" INTEGER NOT NULL,
-    "name" VARCHAR(255) NOT NULL,
-    "date_of_birth" DATE NOT NULL,
-    "escape_attempts" INTEGER NOT NULL,
-    "neutered" BOOLEAN NOT NULL,
-    "weight_kg" INTEGER NOT NULL,
-    "species_id" INTEGER NOT NULL,
-    "owner_id" INTEGER NOT NULL
+/* CREATE TABLES FOR DIAGRAM */
+
+-- patients
+CREATE TABLE patients (
+  id INT NOT NULL GENERATED ALWAYS AS IDENTITY,
+  name VARCHAR(50) NOT NULL,
+  date_of_birth DATE NOT NULL,
+  PRIMARY KEY(id)
 );
-ALTER TABLE
-    "animals" ADD PRIMARY KEY("id");
-ALTER TABLE
-    "animals" ADD CONSTRAINT "animals_species_id_unique" UNIQUE("species_id");
-ALTER TABLE
-    "animals" ADD CONSTRAINT "animals_owner_id_unique" UNIQUE("owner_id");
-CREATE TABLE "owners"(
-    "id" INTEGER NOT NULL,
-    "full_name" VARCHAR(255) NOT NULL,
-    "age" INTEGER NOT NULL,
-    "email" VARCHAR(255) NULL
+
+-- medical history
+CREATE TABLE medical_histories (
+  id INT NOT NULL GENERATED ALWAYS AS IDENTITY,
+  admitted_at TIMESTAMP NOT NULL,
+  patient_id INT NOT NULL,
+  status VARCHAR(250) NOT NULL,
+  FOREIGN KEY (patient_id) REFERENCES patients(id);
+  PRIMARY KEY(id)
 );
-ALTER TABLE
-    "owners" ADD PRIMARY KEY("id");
-CREATE TABLE "visits"(
-    "animals_id" INTEGER NULL,
-    "vets_id" INTEGER NULL,
-    "date_of_visit" INTEGER NULL
+
+-- treatments
+CREATE TABLE treatments (
+  id INT NOT NULL GENERATED ALWAYS AS IDENTITY,
+  type VARCHAR(250) NOT NULL,
+  name VARCHAR(250) NOT NULL,
+  PRIMARY KEY(id)
 );
-CREATE INDEX "visits_animals_id_vets_id_index" ON
-    "visits"("animals_id", "vets_id");
-ALTER TABLE
-    "visits" ADD CONSTRAINT "visits_animals_id_unique" UNIQUE("animals_id");
-ALTER TABLE
-    "visits" ADD CONSTRAINT "visits_vets_id_unique" UNIQUE("vets_id");
-CREATE TABLE "species"(
-    "id" INTEGER NOT NULL,
-    "name" VARCHAR(255) NOT NULL
+
+-- invoices
+CREATE TABLE invoices (
+  id INT NOT NULL GENERATED ALWAYS AS IDENTITY,
+  total_amount FLOAT(2) NOT NULL,
+  generated_at TIMESTAMP NOT NULL,
+  payed_at TIMESTAMP NOT NULL,
+  medical_history_id INT NOT NULL,
+  PRIMARY KEY (id),
+  FOREIGN KEY (medical_history_id) REFERENCES medical_histories(id)
 );
-ALTER TABLE
-    "species" ADD PRIMARY KEY("id");
-CREATE TABLE "specializations"(
-    "species_id" INTEGER NULL,
-    "vet_id" INTEGER NULL
+
+-- invoice_items
+CREATE TABLE invoice_items (
+  id INT NOT NULL GENERATED ALWAYS AS IDENTITY,
+  unit_price FLOAT(2) NOT NULL,
+  quantity INT NOT NULL,
+  total_price FLOAT(2) NOT NULL,
+  invoice_id INT NOT NULL,
+  treatment_id INT NOT NULL,
+  FOREIGN KEY (invoice_id) REFERENCES invoice(id),
+  FOREIGN KEY (treatment_id) REFERENCES treatments(id),
+  PRIMARY KEY(id)
 );
-CREATE INDEX "specializations_species_id_vet_id_index" ON
-    "specializations"("species_id", "vet_id");
-ALTER TABLE
-    "specializations" ADD CONSTRAINT "specializations_species_id_unique" UNIQUE("species_id");
-ALTER TABLE
-    "specializations" ADD CONSTRAINT "specializations_vet_id_unique" UNIQUE("vet_id");
-CREATE TABLE "vets"(
-    "id" INTEGER NOT NULL,
-    "name" VARCHAR(255) NOT NULL,
-    "age" INTEGER NOT NULL,
-    "date_of_graduation" DATE NOT NULL
+
+-- join many to many 
+CREATE TABLE join_history_treatment (
+  id INT NOT NULL GENERATED ALWAYS AS IDENTITY,
+  history_id_fk INT NOT NULL,
+  treatment_id_fk INT NOT NULL,
+  FOREIGN KEY (history_id_fk) REFERENCES medical_histories(id),
+  FOREIGN KEY (treatment_id_fk) REFERENCES treatments(id),
+  PRIMARY KEY(id)
 );
-ALTER TABLE
-    "vets" ADD PRIMARY KEY("id");
-ALTER TABLE
-    "animals" ADD CONSTRAINT "animals_species_id_foreign" FOREIGN KEY("species_id") REFERENCES "species"("id");
-ALTER TABLE
-    "visits" ADD CONSTRAINT "visits_animals_id_foreign" FOREIGN KEY("animals_id") REFERENCES "animals"("id");
-ALTER TABLE
-    "animals" ADD CONSTRAINT "animals_owner_id_foreign" FOREIGN KEY("owner_id") REFERENCES "owners"("id");
-ALTER TABLE
-    "visits" ADD CONSTRAINT "visits_animals_id_foreign" FOREIGN KEY("animals_id") REFERENCES "vets"("id");
-ALTER TABLE
-    "specializations" ADD CONSTRAINT "specializations_vet_id_foreign" FOREIGN KEY("vet_id") REFERENCES "vets"("id");
-ALTER TABLE
-    "specializations" ADD CONSTRAINT "specializations_vet_id_foreign" FOREIGN KEY("vet_id") REFERENCES "species"("id");
